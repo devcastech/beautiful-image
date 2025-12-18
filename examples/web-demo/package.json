@@ -15,6 +15,6 @@
     "vite-plugin-wasm": "^3.5.0"
   },
   "dependencies": {
-    "beautiful-image": "^0.1.5"
+    "beautiful-image": "^0.1.7"
   }
 }

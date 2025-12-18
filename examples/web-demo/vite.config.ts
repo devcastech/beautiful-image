@@ -4,11 +4,6 @@ import topLevelAwait from 'vite-plugin-top-level-await'
 
 export default defineConfig({
   plugins: [wasm(), topLevelAwait()],
-  server: {
-    fs: {
-      strict: false
-    }
-  },
   optimizeDeps: {
     exclude: ['beautiful-image']
   }

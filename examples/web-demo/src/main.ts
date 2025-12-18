@@ -107,21 +107,24 @@ function run() {
     const file = target.files?.[0]
     if (!file) return
 
-    status.textContent = 'Processing...'
 
     try {
+      status.textContent = 'Converting to arrayBuffer...'
       const arrayBuffer = await file.arrayBuffer()
+      status.textContent = 'Converted...'
       const bytes = new Uint8Array(arrayBuffer)
 
       const resizeModeRadio = document.querySelector('input[name="resize-mode"]:checked') as HTMLInputElement
       const mode = resizeModeRadio?.value === 'high' ? ResizeMode.HighQuality : ResizeMode.Standard
 
+      status.textContent = 'Optimizing...'
       const optimized = optimizeImage(
         bytes,
         parseInt(width.value),
         parseInt(quality.value),
         mode
       )
+      status.textContent = 'Optimized!...'
 
       const percentReduction = ((1 - optimized.length / bytes.length) * 100).toFixed(1)
       const originalKB = (bytes.length / 1024).toFixed(1)
@@ -135,7 +138,7 @@ function run() {
       imgOriginal.src = URL.createObjectURL(blobOriginal)
       imgOriginal.style.display = 'block'
 
-      const blobResult = new Blob([optimized], { type: 'image/jpeg' })
+      const blobResult = new Blob([new Uint8Array(optimized)], { type: 'image/jpeg' })
       imgResult.src = URL.createObjectURL(blobResult)
       imgResult.style.display = 'block'
     } catch (error) {
