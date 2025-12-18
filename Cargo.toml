@@ -20,6 +20,6 @@ default-features = false
 features = ["jpeg", "png", "webp"]
 
 [profile.release]
-opt-level = "z"     # Optimizar para tamaño
-lto = true          # Link Time Optimization
-codegen-units = 1   # Mejor optimización
+opt-level = "z"
+lto = true
+codegen-units = 1

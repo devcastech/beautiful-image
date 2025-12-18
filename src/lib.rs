@@ -4,16 +4,6 @@ use image::codecs::jpeg::JpegEncoder;
 use image::ColorType;
 use std::io::Cursor;
 
-// #[wasm_bindgen]
-// extern "C" {
-//     #[wasm_bindgen(js_namespace = console)]
-//     fn log(s: &str);
-// }
-
-// macro_rules! console_log {
-//     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
-// }
-
 #[wasm_bindgen]
 pub enum ResizeMode {
     Standard,
@@ -38,13 +28,8 @@ pub fn optimize_image(
         };
 
         let image_to_transform = if width < image.width(){
-            // console_log!("resized image");
-            // console_log!("before {}x{}", image.width(), image.height());
-            // console_log!("after {}x{}", width, image.height());
             image.resize(width, image.height(), resize_filter)
         } else {
-            // console_log!("default image");
-            // console_log!("{}x{}", width, image.height());
             image.clone()
         };
         let rgb_image = image_to_transform.to_rgb8();
