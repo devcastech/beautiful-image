@@ -1,0 +1,25 @@
+[package]
+name = "beautiful-image"
+version = "0.1.7"
+edition = "2021"
+description = "A Rust library for optimizing images for the web"
+repository = "https://github.com/devcastech/beautiful-image"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+
+getrandom = { version = "0.2", features = ["js"] }
+
+[dependencies.image]
+version = "0.25"
+default-features = false
+features = ["jpeg", "png", "webp"]
+
+[profile.release]
+opt-level = "z"     # Optimizar para tamaño
+lto = true          # Link Time Optimization
+codegen-units = 1   # Mejor optimización
