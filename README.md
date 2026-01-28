@@ -1,82 +1,67 @@
-# Beautiful Image
+# beautiful-image
 
-A Rust library for optimizing images in the browser using WebAssembly.
+Image optimization and filters powered by Rust/WASM.
 
-## What it does
+Resize, compress, and apply filters to images in the browser. Runs fast via WebAssembly.
 
-Optimizes images by resizing and compressing them to JPEG format. Perfect for reducing image file sizes before uploading to your website.
+## Why Rust and WASM?
 
-## Features
+Browsers can resize and encode JPEG natively, but **cannot apply filters** like sharpen, blur, or color adjustments. Rust gives us:
 
-- Resize images to a specific width (maintains aspect ratio)
-- Compress to JPEG with adjustable quality
-- Two resize modes:
-  - **Standard**: Fast resizing (Triangle filter)
-  - **HighQuality**: Better quality (Lanczos3 filter)
-- Supports JPEG, PNG, and WebP input formats
-- Runs in the browser via WebAssembly
+- Image processing algorithms (sharpen, blur, etc.) that browsers don't have
+- Fast execution via WebAssembly
+- Battle-tested `image` crate with optimized implementations
 
-## Installation
+## Use Cases
+
+- **E-commerce** - Bulk optimize product images before upload
+- **CMS/Blogs** - Process images on the client before saving
+- **Social apps** - Apply filters and compress photos
+- **Photo editors** - Real-time filter previews
+- **Blurred previews** - Show blurred thumbnails before unlocking content
+
+## Install
 
 ```bash
-npm i beautiful-image
+npm install beautiful-image
 ```
 
 ## Usage
 
-Works with any modern bundler (Vite, Webpack, Rollup) and framework (React, Vue, Angular, Svelte).
+```typescript
+import { image } from 'beautiful-image'
 
-```javascript
-import { optimizeImage, ResizeMode } from "beautiful-image";
+const result = await image(file)
+  .resize(1000)
+  .sharpen(1.5)
+  .toJpeg(75)
+
+// result.blob - optimized image
+// result.originalSize - original size in bytes
+// result.optimizedSize - new size in bytes
+// result.compressionRatio - 0.85 = 85% smaller
 ```
 
-### API
+## Filters
 
-```javascript
-optimizeImage(bytes, width, quality, mode)
+```typescript
+image(file)
+  .resize(width)           // resize maintaining aspect ratio
+  .sharpen(sigma)          // 1.0 subtle, 3.0 strong
+  .blur(sigma)             // gaussian blur
+  .brightness(value)       // -100 to 100
+  .contrast(value)         // -100 to 100
+  .hueRotate(degrees)      // -180 to 180
+  .grayscale()             // black & white
+  .invert()                // invert colors
+  .toJpeg(quality)         // 1-100
 ```
 
-**Parameters:**
-- `bytes` (Uint8Array): Image data as byte array
-- `width` (number): Target width in pixels (maintains aspect ratio)
-- `quality` (number): JPEG quality from 1-100 (higher = better quality, larger file)
-- `mode` (ResizeMode): `ResizeMode.Standard` (fast) or `ResizeMode.HighQuality` (slower, better)
+## TODO
 
-**Returns:** `Uint8Array` - Optimized JPEG image bytes
-
-### Examples
-
-```javascript
-import { optimizeImage, ResizeMode } from "beautiful-image";
-
-// Get image bytes from a file input
-const file = document.getElementById('upload').files[0];
-const arrayBuffer = await file.arrayBuffer();
-const bytes = new Uint8Array(arrayBuffer);
-
-// Example 1: High quality resize to 800px
-const result1 = optimizeImage(bytes, 800, 85, ResizeMode.HighQuality);
-
-// Example 2: Fast standard resize to 1200px with lower quality
-const result2 = optimizeImage(bytes, 1200, 60, ResizeMode.Standard);
-
-// Example 3: Small thumbnail with standard mode
-const result3 = optimizeImage(bytes, 300, 70, ResizeMode.Standard);
-
-// Create a blob to display or download
-const blob = new Blob([result1], { type: "image/jpeg" });
-const url = URL.createObjectURL(blob);
-```
-
-## Building from Source
-
-If you want to build the package yourself:
-
-```bash
-cargo install wasm-pack
-wasm-pack build --target bundler --release
-```
-
-## License
-
-MIT
+- [ ] More filters (sepia, vignette, noise)
+- [ ] Crop
+- [ ] Export to WebP/PNG
+- [ ] Presets
+- [ ] Web Worker support
+- [ ] Batch processing

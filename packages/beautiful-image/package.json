@@ -1,0 +1,39 @@
+{
+  "name": "beautiful-image",
+  "private": false,
+  "version": "0.0.6",
+  "type": "module",
+  "files": [
+    "dist",
+    "wasm/*.wasm",
+    "wasm/*.js",
+    "wasm/*.d.ts"
+  ],
+  "main": "./dist/beautiful-image.umd.cjs",
+  "module": "./dist/beautiful-image.js",
+  "types": "./dist/beautiful-image.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/beautiful-image.d.ts",
+      "import": "./dist/beautiful-image.js",
+      "require": "./dist/beautiful-image.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.0"
+  }
+}
