@@ -20,6 +20,12 @@ Browsers can resize and encode JPEG natively, but **cannot apply filters** like 
 - **Photo editors** - Real-time filter previews
 - **Blurred previews** - Show blurred thumbnails before unlocking content
 
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/5a3bc4b0-c88d-4504-965e-6c54bea3b6d7" controls="controls" style="max-width: 100%; border-radius: 10px;">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
 ## Install
 
 ```bash
