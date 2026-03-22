@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use image::imageops::{self};
+use image::imageops::{self, FilterType};
 use image::codecs::jpeg::JpegEncoder;
 use image::{ColorType, RgbaImage};
 use std::io::Cursor;
@@ -65,6 +65,74 @@ pub fn process_image(
         rgb_image.as_raw(),
         rgb_image.width(),
         rgb_image.height(),
+        ColorType::Rgb8.into()
+    ).map_err(|e| JsValue::from_str(&format!("Error encoding JPEG: {}", e)))?;
+
+    Ok(out_buffer.into_inner())
+}
+
+#[wasm_bindgen(js_name = processImageFromBytes)]
+pub fn process_image_from_bytes(
+    image_data: &[u8],
+    target_width: Option<u32>,
+    quality: u8,
+    sharpen_sigma: Option<f32>,
+    sharpen_threshold: Option<i32>,
+    blur_sigma: Option<f32>,
+    brightness: Option<i32>,
+    contrast: Option<f32>,
+    grayscale: bool,
+    invert: bool,
+    hue_rotate: Option<i32>,
+) -> Result<Vec<u8>, JsValue> {
+    let decoded = image::load_from_memory(image_data)
+        .map_err(|e| JsValue::from_str(&format!("Error decoding image: {}", e)))?;
+
+    let mut img = if let Some(w) = target_width {
+        if w < decoded.width() {
+            let h = (decoded.height() as f32 * w as f32 / decoded.width() as f32).round() as u32;
+            decoded.resize(w, h, FilterType::Lanczos3).to_rgba8()
+        } else {
+            decoded.to_rgba8()
+        }
+    } else {
+        decoded.to_rgba8()
+    };
+
+    let width = img.width();
+    let height = img.height();
+
+    if let (Some(sigma), Some(threshold)) = (sharpen_sigma, sharpen_threshold) {
+        img = imageops::unsharpen(&img, sigma, threshold);
+    }
+    if let Some(sigma) = blur_sigma {
+        img = imageops::blur(&img, sigma);
+    }
+    if let Some(value) = brightness {
+        img = imageops::brighten(&img, value);
+    }
+    if let Some(value) = contrast {
+        img = imageops::contrast(&img, value);
+    }
+    if grayscale {
+        let gray = imageops::grayscale(&img);
+        img = image::DynamicImage::ImageLuma8(gray).to_rgba8();
+    }
+    if invert {
+        imageops::invert(&mut img);
+    }
+    if let Some(degrees) = hue_rotate {
+        img = imageops::huerotate(&img, degrees);
+    }
+
+    let rgb_image = image::DynamicImage::ImageRgba8(img).to_rgb8();
+    let mut out_buffer = Cursor::new(Vec::new());
+    let mut encoder = JpegEncoder::new_with_quality(&mut out_buffer, quality);
+
+    encoder.encode(
+        rgb_image.as_raw(),
+        width,
+        height,
         ColorType::Rgb8.into()
     ).map_err(|e| JsValue::from_str(&format!("Error encoding JPEG: {}", e)))?;
 
