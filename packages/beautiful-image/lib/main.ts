@@ -1,4 +1,4 @@
-export { image } from './image-processor.js';
+export { image } from './image-processor-web.js';
 export type { OptimizeResult } from './types.js';
 
 // Low-level Api in Rust

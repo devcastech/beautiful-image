@@ -4,6 +4,11 @@ import { image } from 'beautiful-image'
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div class="container">
     <h1>Beautiful Image</h1>
+    <div class="install-bar">
+      <code>npm install beautiful-image</code>
+      <a href="https://github.com/devcastech/beautiful-image#readme" target="_blank">Docs →</a>
+      <a href="https://github.com/devcastech/beautiful-image" target="_blank">GitHub →</a>
+    </div>
 
     <div class="panels">
       <div class="panel">
