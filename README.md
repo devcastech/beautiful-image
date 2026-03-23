@@ -1,6 +1,6 @@
 # beautiful-image
 
-Compress and optimize images with minimal quality loss — in the browser or on the server. Powered by Rust/WASM with zero native dependencies.
+Compress and optimize images with minimal quality loss in the browser or on the server. Powered by Rust/WASM with zero native dependencies.
 
 ## How it works
 
@@ -128,4 +128,4 @@ image(file)
 - [ ] Presets
 - [ ] Web Worker support
 - [ ] Batch processing
-- [ ] `getImageDimensions()` — return width/height from Node.js pipeline (`image::image_dimensions()` reads only the header, no full decode)
+- [ ] `getImageDimensions()` return width/height from Node.js pipeline (`image::image_dimensions()` reads only the header, no full decode)
