@@ -13,6 +13,7 @@ export default defineConfig({
         'beautiful-image.node': resolve(__dirname, 'lib/main.node.ts'),
       },
       name: 'beautiful-image',
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: ['node:fs', 'node:url', 'node:path'],
