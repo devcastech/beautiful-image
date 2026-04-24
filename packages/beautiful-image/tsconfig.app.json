@@ -21,5 +21,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["lib", "wasm/*.d.ts"]
+  "include": ["lib", "wasm/*.d.ts", "tests"]
 }
