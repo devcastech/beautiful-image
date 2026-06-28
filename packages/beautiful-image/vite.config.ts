@@ -15,16 +15,7 @@ export default defineConfig({
       name: 'beautiful-image',
       formats: ['es', 'cjs'],
     },
-    rollupOptions: {
-      external: ['node:fs', 'node:url', 'node:path'],
-      output: {
-        globals: {
-          'node:fs': 'node_fs',
-          'node:url': 'node_url',
-          'node:path': 'node_path',
-        },
-      },
-    },
+    rollupOptions: {},
   },
   plugins: [
     dts({

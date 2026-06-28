@@ -1,19 +1,14 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { join, dirname } from 'node:path';
 import init, { processImageFromBytes } from '../wasm/beautiful_image.js';
+import wasmDataUrl from '../wasm/beautiful_image_bg.wasm?url&inline';
 import type { NodeOptimizeResult } from './types.js';
 import { ImageProcessor } from './image-processor.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 let initialized = false;
 
 async function ensureInit() {
   if (!initialized) {
-    const wasmPath = join(__dirname, '../wasm/beautiful_image_bg.wasm');
-    const wasmBytes = readFileSync(wasmPath);
-    await init({ module_or_path: wasmBytes });
+    const base64 = wasmDataUrl.slice(wasmDataUrl.indexOf(',') + 1);
+    await init({ module_or_path: Buffer.from(base64, 'base64') });
     initialized = true;
   }
 }
