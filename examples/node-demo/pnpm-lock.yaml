@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       beautiful-image:
-        specifier: ^0.2.5
-        version: 0.2.6
+        specifier: ^0.4.3
+        version: 0.4.3
     devDependencies:
       tsx:
         specifier: ^4.0.0
@@ -177,8 +177,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  beautiful-image@0.2.6:
-    resolution: {integrity: sha512-2IAkPUrGYZi6beq8J+vAnkILZK0CY9R/AOvBF4hAeL28nNn0yvhhF5e6F0v05X9GjuyH1K+rBiXGjFs1ow2OZw==}
+  beautiful-image@0.4.3:
+    resolution: {integrity: sha512-PdC/AUThhyT+d9eH3iwOKlvPTnx60fqtargHjR2kSEv6d3vV6zxz/cTJQ93Gt2v4j1DF9ZYhU4L2tAVFDHq23Q==}
 
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
@@ -280,7 +280,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.1':
     optional: true
 
-  beautiful-image@0.2.6: {}
+  beautiful-image@0.4.3: {}
 
   esbuild@0.28.1:
     optionalDependencies:
