@@ -41,7 +41,7 @@ export const handler = async (event: AWSLambda.S3Event): Promise<void> => {
         continue
       }
       input = Buffer.from(await Body.transformToByteArray())
-      console.log(`[timer] download: ${(performance.now() - t1).toFixed(0)}ms — ${input.length}B`)
+      console.log(`[timer] download: ${(performance.now() - t1).toFixed(0)}ms ${input.length}B`)
     } catch (err) {
       console.error(`Failed to download ${key}:`, err)
       continue
@@ -78,7 +78,7 @@ export const handler = async (event: AWSLambda.S3Event): Promise<void> => {
       console.log(`[timer] upload ${destKey}: ${(performance.now() - tu).toFixed(0)}ms`)
 
       console.log(
-        `Saved ${destKey} — ${result.originalSize}B → ${result.optimizedSize}B (${Math.round(result.compressionRatio * 100)}% smaller)`
+        `Saved ${destKey} - ${result.originalSize}B → ${result.optimizedSize}B (${Math.round(result.compressionRatio * 100)}% smaller)`
       )
     }
 
