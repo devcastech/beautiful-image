@@ -12,8 +12,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1075.0
       beautiful-image:
-        specifier: ^0.4.3
-        version: 0.4.3
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.0
@@ -331,8 +331,8 @@ packages:
   '@types/node@22.20.0':
     resolution: {integrity: sha512-QWlFW2wf3nTjC13/DqRnBpR4ZO36VJH/JVBkA/vcnmbTBNQIlnObqyqZE1tUR7+Ni23Lda8R1BxMfbXRpCUx5g==}
 
-  beautiful-image@0.4.3:
-    resolution: {integrity: sha512-PdC/AUThhyT+d9eH3iwOKlvPTnx60fqtargHjR2kSEv6d3vV6zxz/cTJQ93Gt2v4j1DF9ZYhU4L2tAVFDHq23Q==}
+  beautiful-image@1.0.0:
+    resolution: {integrity: sha512-xaV/CgaWERjD2zFChc1EC3jKBXsFyE/oZF0j0aDpJ4TvAs0P5jU7czP4yUFKmcTEg3RQT8YbR3iGyZZK0iEgEA==}
 
   bowser@2.14.1:
     resolution: {integrity: sha512-tzPjzCxygAKWFOJP011oxFHs57HzIhOEracIgAePE4pqB3LikALKnSzUyU4MGs9/iCEUuHlAJTjTc5M+u7YEGg==}
@@ -716,7 +716,7 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  beautiful-image@0.4.3: {}
+  beautiful-image@1.0.0: {}
 
   bowser@2.14.1: {}
 
