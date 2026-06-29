@@ -15,7 +15,7 @@
     "@astrojs/starlight-tailwind": "^5.0.0",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^7.0.2",
-    "beautiful-image": "file:../packages/beautiful-image",
+    "beautiful-image": "^0.4.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-dropzone": "^15.0.0",
