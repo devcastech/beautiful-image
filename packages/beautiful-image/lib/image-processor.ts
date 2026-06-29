@@ -1,9 +1,9 @@
-import type { Operations } from "./types";
+import type { Operations } from './types';
 
 export abstract class ImageProcessor<TInput, TResult> {
-  protected file: TInput;
-  protected targetWidth?: number;
-  protected ops: Operations = {
+  file: TInput;
+  targetWidth?: number;
+  ops: Operations = {
     grayscale: false,
     invert: false,
   };
@@ -52,7 +52,6 @@ export abstract class ImageProcessor<TInput, TResult> {
     this.ops.hueRotate = degrees;
     return this;
   }
-  
-  abstract toJpeg(quality: number): Promise<TResult>;
 
+  abstract toJpeg(quality: number): Promise<TResult>;
 }
