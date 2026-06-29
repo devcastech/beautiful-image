@@ -14,13 +14,6 @@ export function FiltersPanel({ filters, source, onChange, onReset }: FiltersPane
 
   return (
     <div className="pg-panel">
-      <div className="pg-panel__header">
-        <h2 className="pg-panel__title">Filters</h2>
-        <button type="button" className="pg-reset" onClick={onReset}>
-          Reset
-        </button>
-      </div>
-
       <section className="pg-group">
         <h3 className="pg-group__title">Output</h3>
         <Slider
@@ -40,6 +33,13 @@ export function FiltersPanel({ filters, source, onChange, onReset }: FiltersPane
           onChange={(v) => onChange({ resize: v >= source.width ? null : v })}
         />
       </section>
+
+      <div className="pg-panel__header">
+        <h2 className="pg-panel__title">Filters</h2>
+        <button type="button" className="pg-reset" onClick={onReset}>
+          Reset
+        </button>
+      </div>
 
       <section className="pg-group">
         <h3 className="pg-group__title">Detail</h3>

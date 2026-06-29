@@ -57,8 +57,17 @@ export function PreviewPane({ source, optimized, processing }: PreviewPaneProps)
         <span className="pg-preview__tag pg-preview__tag--left" style={{ opacity: pos > 12 ? 1 : 0 }}>
           Original
         </span>
-        <span className="pg-preview__tag pg-preview__tag--right" style={{ opacity: pos < 88 ? 1 : 0 }}>
-          Optimized
+        <span
+          className={`pg-preview__tag pg-preview__tag--right${processing ? ' pg-preview__tag--processing' : ''}`}
+          style={{ opacity: pos < 88 ? 1 : 0 }}
+        >
+          <span className="pg-tag-label pg-tag-label--done">Optimized</span>
+          <span className="pg-tag-label pg-tag-label--busy" aria-hidden={!processing}>
+            Processing
+            <span className="pg-dots" aria-hidden="true">
+              <span>.</span><span>.</span><span>.</span>
+            </span>
+          </span>
         </span>
 
         <div

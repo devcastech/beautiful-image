@@ -72,11 +72,10 @@ export default function Playground() {
     <div className="pg-workspace">
       <main className="pg-stage">
         <PreviewPane source={source} optimized={result} processing={status === 'processing'} />
+        <Stats source={source} optimized={result} />
         {error && <p className="pg-error">{error}</p>}
       </main>
-
       <aside className="pg-sidebar">
-        <Stats source={source} optimized={result} />
         <FiltersPanel filters={filters} source={source} onChange={updateFilters} onReset={reset} />
 
         <div className="pg-actions">

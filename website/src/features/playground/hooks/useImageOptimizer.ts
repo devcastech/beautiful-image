@@ -29,7 +29,11 @@ async function optimize(file: File, filters: FilterState): Promise<OptimizedImag
  * Re-optimizes the source image whenever filters change, debounced.
  * Guards against out-of-order results and revokes stale object URLs.
  */
-export function useImageOptimizer(source: SourceImage | null, filters: FilterState, debounceMs = 250) {
+export function useImageOptimizer(
+  source: SourceImage | null,
+  filters: FilterState,
+  debounceMs = 200
+) {
   const [state, setState] = useState<OptimizerState>({ result: null, status: 'idle', error: null });
   const runId = useRef(0);
   const lastUrl = useRef<string | null>(null);
