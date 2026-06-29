@@ -1,0 +1,70 @@
+---
+title: Node.js
+description: Compress and optimize images on the server or in serverless functions using pure WASM.
+---
+
+import { Steps, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Aside type="tip">
+  The Node.js pipeline runs entirely in WASM, no native binaries, no `node-gyp`. Works out of the box on AWS Lambda, Google Cloud Functions, and any serverless platform.
+</Aside>
+
+<Steps>
+
+1. **Install**
+
+   <Tabs syncKey="pkg">
+     <TabItem label="npm">
+       ```sh
+       npm install beautiful-image
+       ```
+     </TabItem>
+     <TabItem label="pnpm">
+       ```sh
+       pnpm add beautiful-image
+       ```
+     </TabItem>
+     <TabItem label="yarn">
+       ```sh
+       yarn add beautiful-image
+       ```
+     </TabItem>
+   </Tabs>
+
+2. **Import from the Node.js entry point**
+
+   ```typescript
+   import { image } from 'beautiful-image/node'
+   import { readFileSync, writeFileSync } from 'node:fs'
+
+   const input = readFileSync('./photo.jpg')
+
+   const result = await image(input)
+     .resize(1200)
+     .sharpen()
+     .toJpeg(80)
+
+   writeFileSync('./optimized.jpg', result.data)
+
+   console.log(`${result.originalSize}B → ${result.optimizedSize}B`)
+   ```
+
+</Steps>
+
+## Result object
+
+| Field               | Type     | Description                              |
+| ------------------- | -------- | ---------------------------------------- |
+| `data`              | `Buffer` | Optimized image as a Node.js Buffer      |
+| `originalSize`      | `number` | Original file size in bytes              |
+| `optimizedSize`     | `number` | New file size in bytes                   |
+| `compressionRatio`  | `number` | `0.85` means 85% smaller than original  |
+
+## How it works
+
+Unlike the browser build, the Node.js pipeline runs the **full decode → resize → filter → encode** flow inside WASM. This means no dependency on `sharp`, `libvips`, or any native module, making it ideal for cold-start sensitive environments like Lambda.
+
+## Next steps
+
+- See all available filter methods in the [API Reference](/api/).
+- Deploying to AWS Lambda? See the [Lambda + S3 guide](/guides/lambda-s3/).

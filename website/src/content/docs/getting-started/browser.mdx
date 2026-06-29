@@ -1,0 +1,77 @@
+---
+title: Browser
+description: Compress and optimize images in the browser. Pass a File and the library handles Canvas and WASM internally.
+---
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Steps>
+
+1. **Install**
+
+   <Tabs syncKey="pkg">
+     <TabItem label="npm">
+       ```sh
+       npm install beautiful-image
+       ```
+     </TabItem>
+     <TabItem label="pnpm">
+       ```sh
+       pnpm add beautiful-image
+       ```
+     </TabItem>
+     <TabItem label="yarn">
+       ```sh
+       yarn add beautiful-image
+       ```
+     </TabItem>
+   </Tabs>
+
+2. **Add an input to your HTML**
+
+   ```html
+   <input type="file" id="upload" accept="image/*" />
+   <img id="preview" />
+   ```
+
+3. **Import and use**
+
+   ```typescript
+   import { image } from 'beautiful-image'
+
+   const input = document.getElementById('upload') as HTMLInputElement
+
+   input.addEventListener('change', async () => {
+     const file = input.files?.[0]
+     if (!file) return
+
+     const result = await image(file)
+       .resize(1200)
+       .sharpen()
+       .toJpeg(80)
+
+     document.getElementById('preview').src = URL.createObjectURL(result.blob)
+   })
+   ```
+
+</Steps>
+
+## Result object
+
+| Field               | Type     | Description                              |
+| ------------------- | -------- | ---------------------------------------- |
+| `blob`              | `Blob`   | Optimized image as a Blob                |
+| `originalSize`      | `number` | Original file size in bytes              |
+| `optimizedSize`     | `number` | New file size in bytes                   |
+| `compressionRatio`  | `number` | `0.85` means 85% smaller than original  |
+| `width`             | `number` | Output image width in pixels             |
+| `height`            | `number` | Output image height in pixels            |
+
+## How it works
+
+You just pass a `File` and the library handles everything internally. It uses the browser's native **Canvas API** to decode and resize the image with GPU acceleration, then passes the pixel data to **WASM** (compiled from Rust) for sharpening and JPEG encoding. No Canvas setup required on your end.
+
+## Next steps
+
+- See all available filter methods in the [API Reference](/api/).
+- Processing images server-side? Check out the [Node.js guide](/getting-started/node/).

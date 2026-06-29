@@ -1,0 +1,61 @@
+---
+import Header from '../components/header.astro';
+import Footer from '../components/footer.astro';
+import '../styles/landing.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playground | beautiful-image</title>
+    <meta
+      name="description"
+      content="Try beautiful-image live: upload an image, apply filters, and see the compression result in real time."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#080808] text-white antialiased"
+    style="display: flex; flex-direction: column; height: 100dvh;"
+  >
+    <Header />
+
+    <!-- Banner -->
+    <div
+      class="shrink-0 mt-14 border-b border-white/[0.06] bg-[#CF8C3E]/[0.07] px-6 py-2.5 text-center"
+    >
+      <p class="font-mono-display text-xs text-[#CF8C3E]">
+        <span class="font-semibold">¡Coming soon!</span>
+        {' '}
+        <span>
+          a dedicated app where you can optimize images without them ever leaving your device. No
+          servers. No cost. No account.
+        </span>
+      </p>
+    </div>
+
+    <iframe
+      src="https://beautiful-image-eight.vercel.app/"
+      title="beautiful-image playground"
+      style="flex: 1; border: none; width: 100%;"
+      loading="eager"
+    >
+    </iframe>
+
+    <Footer />
+  </body>
+</html>

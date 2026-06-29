@@ -1,0 +1,179 @@
+---
+title: API Reference
+description: Complete method reference for beautiful-image, browser and Node.js.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+All methods are available in both the **browser** (`beautiful-image`) and **Node.js** (`beautiful-image/node`) builds. Methods are chainable and return `this` until a terminal encode method is called.
+
+```typescript
+const result = await image(file)
+  .resize(1200)
+  .sharpen()
+  .brightness(10)
+  .toJpeg(80)
+```
+
+---
+
+## `image(input)`
+
+Entry point. Accepts a `File` (browser) or `Buffer` / `Uint8Array` (Node.js).
+
+```typescript
+// Browser
+import { image } from 'beautiful-image'
+const pipeline = image(file)
+
+// Node.js
+import { image } from 'beautiful-image/node'
+const pipeline = image(buffer)
+```
+
+---
+
+## `.resize(width)`
+
+Resizes the image to the given width, maintaining the original aspect ratio.
+
+| Parameter | Type     | Description              |
+| --------- | -------- | ------------------------ |
+| `width`   | `number` | Target width in pixels   |
+
+```typescript
+image(file).resize(1200)
+```
+
+---
+
+## `.sharpen(sigma?)`
+
+Applies an unsharp mask to recover detail lost during resize.
+
+| Parameter | Type     | Default | Description                             |
+| --------- | -------- | ------- | --------------------------------------- |
+| `sigma`   | `number` | `1.5`   | Sharpening strength. Higher = stronger. |
+
+```typescript
+image(file).resize(1200).sharpen()       // default sigma 1.5
+image(file).resize(1200).sharpen(2.5)    // stronger
+```
+
+---
+
+## `.blur(sigma)`
+
+Applies a Gaussian blur.
+
+| Parameter | Type     | Description                          |
+| --------- | -------- | ------------------------------------ |
+| `sigma`   | `number` | Blur radius. Higher = more blurred.  |
+
+```typescript
+image(file).blur(8)   // blurred preview / thumbnail
+```
+
+---
+
+## `.brightness(value)`
+
+Adjusts brightness.
+
+| Parameter | Type     | Range        | Description               |
+| --------- | -------- | ------------ | ------------------------- |
+| `value`   | `number` | `-100..100`  | Positive = brighter       |
+
+```typescript
+image(file).brightness(20)
+```
+
+---
+
+## `.contrast(value)`
+
+Adjusts contrast.
+
+| Parameter | Type     | Range        | Description               |
+| --------- | -------- | ------------ | ------------------------- |
+| `value`   | `number` | `-100..100`  | Positive = more contrast  |
+
+```typescript
+image(file).contrast(-10)
+```
+
+---
+
+## `.hueRotate(degrees)`
+
+Rotates the hue of every pixel.
+
+| Parameter | Type     | Range         | Description            |
+| --------- | -------- | ------------- | ---------------------- |
+| `degrees` | `number` | `-180..180`   | Degrees to rotate hue  |
+
+```typescript
+image(file).hueRotate(120)
+```
+
+---
+
+## `.grayscale()`
+
+Converts the image to black and white. No parameters.
+
+```typescript
+image(file).grayscale()
+```
+
+---
+
+## `.invert()`
+
+Inverts all colors. No parameters.
+
+```typescript
+image(file).invert()
+```
+
+---
+
+## `.toJpeg(quality)`  terminal
+
+Encodes the processed image as JPEG and returns a `Promise`. This is the terminal method, it triggers processing and must be `await`ed.
+
+| Parameter | Type     | Range   | Description                         |
+| --------- | -------- | ------- | ----------------------------------- |
+| `quality` | `number` | `1..100`| JPEG quality. 80 is a good default. |
+
+**Returns (browser):**
+
+```typescript
+{
+  blob: Blob
+  originalSize: number
+  optimizedSize: number
+  compressionRatio: number
+  width: number
+  height: number
+}
+```
+
+**Returns (Node.js):**
+
+```typescript
+{
+  data: Buffer
+  originalSize: number
+  optimizedSize: number
+  compressionRatio: number
+}
+```
+
+```typescript
+const result = await image(file).resize(1200).sharpen().toJpeg(80)
+```
+
+<Aside>
+  `compressionRatio` is expressed as a fraction: `0.75` means the output is 75% smaller than the original.
+</Aside>
