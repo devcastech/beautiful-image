@@ -1,6 +1,7 @@
 ---
 import Header from '../components/header.astro';
 import Footer from '../components/footer.astro';
+import Playground from '../features/playground/Playground.tsx';
 import '../styles/landing.css';
 ---
 
@@ -12,12 +13,12 @@ import '../styles/landing.css';
     <title>Playground | beautiful-image</title>
     <meta
       name="description"
-      content="Try beautiful-image live: upload an image, apply filters, and see the compression result in real time."
+      content="Try beautiful-image live: drop an image, apply filters, and watch the file shrink in real time. Everything runs in your browser, nothing is uploaded."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -30,31 +31,14 @@ import '../styles/landing.css';
   </head>
   <body
     class="bg-[#080808] text-white antialiased"
-    style="display: flex; flex-direction: column; height: 100dvh;"
+    style="display: flex; flex-direction: column; min-height: 100dvh;"
   >
     <Header />
 
-    <!-- Banner -->
-    <div
-      class="shrink-0 mt-14 border-b border-white/[0.06] bg-[#CF8C3E]/[0.07] px-6 py-2.5 text-center"
-    >
-      <p class="font-mono-display text-xs text-[#CF8C3E]">
-        <span class="font-semibold">¡Coming soon!</span>
-        {' '}
-        <span>
-          a dedicated app where you can optimize images without them ever leaving your device. No
-          servers. No cost. No account.
-        </span>
-      </p>
+    <!-- mt-14 offsets the fixed Header (h-14) so content isn't hidden behind it -->
+    <div class="pg-root" style="flex: 1; min-height: 0; margin-top: 3.5rem;">
+      <Playground client:only="react" />
     </div>
-
-    <iframe
-      src="https://beautiful-image-eight.vercel.app/"
-      title="beautiful-image playground"
-      style="flex: 1; border: none; width: 100%;"
-      loading="eager"
-    >
-    </iframe>
 
     <Footer />
   </body>

@@ -1,10 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   integrations: [
+    react(),
     starlight({
       title: 'beautiful-image',
       description: 'Compress and optimize images with minimal quality loss. Powered by Rust/WASM.',
