@@ -1,0 +1,23 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2026-06-23T00:00:00.000Z",
+      "eventName": "ObjectCreated:Put",
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "ImageProcessorEvent",
+        "bucket": {
+          "name": "beautiful-image-demo-raw-images",
+          "arn": "arn:aws:s3:::beautiful-image-demo-raw-images"
+        },
+        "object": {
+          "key": "images-sample/sample.jpg",
+          "size": 128743
+        }
+      }
+    }
+  ]
+}

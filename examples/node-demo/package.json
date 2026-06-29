@@ -7,7 +7,7 @@
     "start": "tsx index.ts"
   },
   "dependencies": {
-    "beautiful-image": "^0.2.5"
+    "beautiful-image": "^0.4.2"
   },
   "devDependencies": {
     "tsx": "^4.0.0",

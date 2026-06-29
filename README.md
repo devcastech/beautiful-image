@@ -101,6 +101,8 @@ export const handler = async (event: any) => {
 }
 ```
 
+For a full working example with SAM deployment see [`examples/lambda-demo`](./examples/lambda-demo).
+
 ## API
 
 All methods are available in both browser and Node.js:
