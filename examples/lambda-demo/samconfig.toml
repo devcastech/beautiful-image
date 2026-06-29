@@ -1,0 +1,16 @@
+version = 0.1
+
+[sandbox.deploy.parameters]
+stack_name = "beautiful-image-lambda-demo"
+resolve_s3 = true
+s3_prefix = "beautiful-image-lambda-demo"
+region = "us-east-1"
+profile = "sandbox"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = [
+  "SourceBucketName=beautiful-image-demo-raw-images",
+  "DestBucketName=beautiful-image-demo-processed-images",
+  "Environment=sandbox"
+]
+confirm_changeset = true
+fail_on_empty_changeset = false

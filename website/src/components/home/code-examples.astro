@@ -1,0 +1,84 @@
+---
+import { Code } from 'astro:components';
+
+const browserCode = `import { image } from 'beautiful-image'
+
+const result = await image(file)
+  .resize(1200)
+  .sharpen()
+  .toJpeg(80)
+
+document.getElementById('preview').src =
+  URL.createObjectURL(result.blob)
+
+// result.blob              optimized Blob
+// result.originalSize      original file size
+// result.compressionRatio  e.g. 0.72 = 72% smaller`;
+
+const nodeCode = `import { image } from 'beautiful-image/node'
+import { readFileSync, writeFileSync } from 'node:fs'
+
+const input = readFileSync('./photo.jpg')
+
+const result = await image(input)
+  .resize(1200)
+  .sharpen()
+  .toJpeg(80)
+
+writeFileSync('./optimized.jpg', result.data)
+
+// result.data              optimized Buffer
+// result.originalSize      original file size
+// result.compressionRatio  e.g. 0.72 = 72% smaller`;
+---
+
+<section class="mx-auto max-w-5xl px-6 pb-32">
+  <div class="mb-10 text-center">
+    <h2
+      class="font-mono-display font-bold text-white"
+      style="font-size: 1.375rem; letter-spacing: -0.015em;"
+    >
+      Same API, anywhere.
+    </h2>
+    <p class="mt-2.5 text-sm text-white/35">
+      One import for the browser, one for Node.js. Everything else is identical.
+    </p>
+  </div>
+
+  <div class="overflow-hidden rounded-xl border border-white/[0.07] bg-[#0d1117]">
+    <div class="flex border-b border-white/[0.07]">
+      <button
+        class="tab-btn is-active font-mono-display px-5 py-3 text-sm font-semibold"
+        data-tab="browser"
+      >
+        Browser
+      </button>
+      <button class="tab-btn font-mono-display px-5 py-3 text-sm font-semibold" data-tab="node">
+        Node
+      </button>
+    </div>
+
+    <div id="tab-browser" class="tab-panel code-panel">
+      <Code code={browserCode} lang="typescript" theme="material-theme-darker" class="p-4" />
+    </div>
+    <div id="tab-node" class="tab-panel code-panel hidden">
+      <Code code={nodeCode} lang="typescript" theme="material-theme-darker" class="p-4" />
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab!;
+
+      document.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((t) => {
+        t.classList.toggle('is-active', t.dataset.tab === target);
+      });
+
+      document.querySelectorAll<HTMLElement>('.tab-panel').forEach((p) => {
+        p.classList.toggle('hidden', p.id !== `tab-${target}`);
+      });
+    });
+  });
+</script>

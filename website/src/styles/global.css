@@ -1,0 +1,116 @@
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Dark mode  */
+:root[data-theme='dark'] {
+  --sl-color-accent-low:  #3d2808;
+  --sl-color-accent:      #CF8C3E;
+  --sl-color-accent-high: #e8b872;
+
+  --sl-color-bg:          #0f0f0f;
+  --sl-color-bg-nav:      #0f0f0f;
+  --sl-color-bg-sidebar:  #0f0f0f;
+
+  /* gray-1 = primary text   ~12:1 on bg  */
+  /* gray-2 = body text      ~7:1         */
+  /* gray-3 = muted/captions ~4.6:1 (AA) */
+  /* gray-4+ = borders, surfaces only     */
+  --sl-color-gray-1: #f0f1f4;
+  --sl-color-gray-2: #b8bcc8;
+  --sl-color-gray-3: #888c98;
+  --sl-color-gray-4: #48505e;
+  --sl-color-gray-5: #252830;
+  --sl-color-gray-6: #171920;
+  --sl-color-black:  #0f0f0f;
+
+  --sl-color-hairline-light:  rgba(255, 255, 255, 0.07);
+  --sl-color-hairline-medium: rgba(255, 255, 255, 0.10);
+}
+
+/* Light mode */
+:root[data-theme='light'] {
+  --sl-color-accent-low:  #fcebd6;
+  --sl-color-accent:      #8B5E1A;
+  --sl-color-accent-high: #5c3c08;
+
+  --sl-color-bg:         #f9f9f8;
+  --sl-color-bg-nav:     #f9f9f8;
+  --sl-color-bg-sidebar: #f9f9f8;
+
+  --sl-color-hairline-light:  rgba(0, 0, 0, 0.07);
+  --sl-color-hairline-medium: rgba(0, 0, 0, 0.12);
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: -0.02em;
+}
+
+a.site-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+
+[data-theme='dark'] a.site-title  { color: #ffffff; }
+[data-theme='light'] a.site-title { color: #1a1a18; }
+
+/* Sidebar active state */
+[data-theme='dark'] a[aria-current='page'],
+[data-theme='dark'] a[aria-current='page']:hover {
+  color: #CF8C3E;
+  background-color: rgba(207, 140, 62, 0.09);
+}
+
+[data-theme='light'] a[aria-current='page'],
+[data-theme='light'] a[aria-current='page']:hover {
+  color: #8B5E1A;
+  background-color: rgba(139, 94, 26, 0.08);
+}
+
+/* Nav border  */
+header.header {
+  box-shadow: none;
+}
+[data-theme='dark'] header.header  { border-bottom-color: rgba(255, 255, 255, 0.07); }
+[data-theme='light'] header.header { border-bottom-color: rgba(0, 0, 0, 0.08); }
+
+.sl-markdown-content h2 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sl-markdown-content table {
+  font-size: 0.875rem;
+  border-collapse: collapse;
+}
+
+.sl-markdown-content th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+[data-theme='dark'] .sl-markdown-content td,
+[data-theme='dark'] .sl-markdown-content th {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='light'] .sl-markdown-content td,
+[data-theme='light'] .sl-markdown-content th {
+  border-color: rgba(0, 0, 0, 0.09);
+}
+
+.sl-markdown-content .starlight-aside {
+  border-inline-start-width: 2px;
+  border-radius: 6px;
+}

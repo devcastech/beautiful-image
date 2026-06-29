@@ -42,10 +42,10 @@ input.addEventListener('change', async () => {
     .sharpen()
     .toJpeg(80)
 
-  // result.blob             — optimized image as Blob
-  // result.originalSize     — original size in bytes
-  // result.optimizedSize    — new size in bytes
-  // result.compressionRatio — 0.85 = 85% smaller
+  // result.blob              optimized image as Blob
+  // result.originalSize      original size in bytes
+  // result.optimizedSize     new size in bytes
+  // result.compressionRatio  0.85 = 85% smaller
   // result.width / result.height
 
   document.getElementById('preview').src = URL.createObjectURL(result.blob)
@@ -69,10 +69,10 @@ const result = await image(input)
 
 writeFileSync('./optimized.jpg', result.data)
 
-// result.data             — optimized image as Buffer
-// result.originalSize     — original size in bytes
-// result.optimizedSize    — new size in bytes
-// result.compressionRatio — 0.85 = 85% smaller
+// result.data              optimized image as Buffer
+// result.originalSize      original size in bytes
+// result.optimizedSize     new size in bytes
+// result.compressionRatio  0.85 = 85% smaller
 ```
 
 ### Lambda + S3 example
@@ -101,6 +101,8 @@ export const handler = async (event: any) => {
 }
 ```
 
+For a full working example with SAM deployment see [`examples/lambda-demo`](./examples/lambda-demo).
+
 ## API
 
 All methods are available in both browser and Node.js:
@@ -108,7 +110,7 @@ All methods are available in both browser and Node.js:
 ```typescript
 image(file)
   .resize(width)        // resize maintaining aspect ratio
-  .sharpen(sigma)       // default 1.5 — subtle to strong
+  .sharpen(sigma)       // default 1.5, subtle to strong
   .blur(sigma)          // gaussian blur
   .brightness(value)    // -100 to 100
   .contrast(value)      // -100 to 100
@@ -120,11 +122,11 @@ image(file)
 
 ## Use Cases
 
-- **E-commerce** — Optimize product images before upload, saving storage and bandwidth
-- **CMS/Blogs** — Process images on the client before saving, no server needed
-- **Social apps** — Compress and filter photos before posting
-- **Lambda/Cloud Functions** — Automatically optimize images on upload to S3 or cloud storage
-- **Blurred previews** — Generate blurred thumbnails before unlocking content
+- **E-commerce**  Optimize product images before upload, saving storage and bandwidth
+- **CMS/Blogs**  Process images on the client before saving, no server needed
+- **Social apps**  Compress and filter photos before posting
+- **Lambda/Cloud Functions** Automatically optimize images on upload to S3 or cloud storage
+- **Blurred previews** Generate blurred thumbnails before unlocking content
 
 ## TODO
 

@@ -1,0 +1,107 @@
+<section
+  class="flex min-h-screen flex-col items-center justify-center px-6 pb-20 pt-24 text-center"
+>
+  <div class="flex flex-col items-center gap-7">
+    <h1
+      class="font-mono-display max-w-2xl font-bold text-white"
+      style="font-size: clamp(2.4rem, 5.5vw, 3.75rem); line-height: 1.1; letter-spacing: -0.02em;"
+    >
+      Compress images<br />
+      <span class="text-white/50">without sacrificing quality.</span>
+    </h1>
+
+    <p class="max-w-xs text-[0.9375rem] leading-relaxed text-white/38 sm:max-w-sm">
+      Powered by Rust/WASM runs in the browser and on the server with zero native dependencies.
+    </p>
+
+    <div
+      class="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-5 py-3"
+    >
+      <span class="font-mono-display select-none text-sm text-white/22">$</span>
+      <code id="install-cmd" class="font-mono-display text-sm text-[#CF8C3E]"
+        >npm install beautiful-image</code
+      >
+      <button
+        id="copy-btn"
+        aria-label="Copy install command"
+        class="ml-2 text-white/25 transition-colors hover:text-white/60"
+      >
+        <svg
+          id="icon-copy"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <svg
+          id="icon-check"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          stroke="#CF8C3E"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="hidden"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="/getting-started/browser/"
+        class="rounded-lg bg-[#CF8C3E] px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-85"
+      >
+        Get started →
+      </a>
+      <a
+        href="/playground/"
+        class="rounded-lg border border-white/[0.12] px-5 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:border-white/25 hover:text-white"
+      >
+        Try playground
+      </a>
+      <a
+        href="https://github.com/devcastech/beautiful-image"
+        class="text-sm text-white/35 transition-colors hover:text-white"
+      >
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('copy-btn')?.addEventListener('click', async () => {
+    const text = document.getElementById('install-cmd')?.textContent ?? '';
+    await navigator.clipboard.writeText(text);
+    document.getElementById('icon-copy')?.classList.add('hidden');
+    const check = document.getElementById('icon-check');
+    check?.classList.remove('hidden');
+    setTimeout(() => {
+      check?.classList.add('hidden');
+      document.getElementById('icon-copy')?.classList.remove('hidden');
+    }, 1500);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab!;
+
+      document.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((t) => {
+        t.classList.toggle('is-active', t.dataset.tab === target);
+      });
+
+      document.querySelectorAll<HTMLElement>('.tab-panel').forEach((p) => {
+        p.classList.toggle('hidden', p.id !== `tab-${target}`);
+      });
+    });
+  });
+</script>

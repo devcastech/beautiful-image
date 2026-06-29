@@ -1,0 +1,122 @@
+---
+title: Lambda + S3
+description: Automatically optimize images on upload to S3 using beautiful-image inside an AWS Lambda function.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+This guide shows how to trigger image optimization automatically when files are uploaded to an S3 bucket, using **beautiful-image** inside an AWS Lambda function.
+
+<Aside type="tip">
+  **No native dependencies.** The Node.js pipeline runs entirely in WASM, so there's no need to bundle `sharp`, `libvips`, or any native binary. Deploy a standard zip and it just works.
+</Aside>
+
+## Architecture
+
+```
+S3 (raw-images/)
+    │  upload event
+    ▼
+Lambda (ImageProcessor)
+    │  beautiful-image/node
+    ├──▶ S3 (optimized/  800px · quality 80)
+    └──▶ S3 (thumbnails/ 200px · quality 80)
+```
+
+## Handler
+
+```typescript
+import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
+import { image } from 'beautiful-image/node'
+import path from 'node:path'
+
+const SOURCE_BUCKET = process.env.SOURCE_BUCKET!
+const DEST_BUCKET   = process.env.DEST_BUCKET!
+
+const s3 = new S3Client({})
+
+const VARIANTS = [
+  { folder: 'optimized',  width: 800, quality: 80 },
+  { folder: 'thumbnails', width: 200, quality: 80 },
+] as const
+
+const ALLOWED_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
+
+export const handler = async (event: AWSLambda.S3Event): Promise<void> => {
+  for (const record of event.Records) {
+    const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '))
+
+    const ext = path.extname(key).toLowerCase()
+    if (!ALLOWED_EXTENSIONS.has(ext)) {
+      console.log(`Skipping unsupported file type: ${key}`)
+      continue
+    }
+
+    const { Body } = await s3.send(
+      new GetObjectCommand({ Bucket: SOURCE_BUCKET, Key: key })
+    )
+    const input = Buffer.from(await Body!.transformToByteArray())
+
+    const filename = path.parse(key).name
+
+    for (const { folder, width, quality } of VARIANTS) {
+      const result = await image(input).resize(width).toJpeg(quality)
+
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: DEST_BUCKET,
+          Key: `${folder}/${filename}.jpg`,
+          Body: result.data,
+          ContentType: 'image/jpeg',
+        })
+      )
+
+      console.log(
+        `Saved ${folder}/${filename}.jpg - ` +
+        `${result.originalSize}B → ${result.optimizedSize}B ` +
+        `(${Math.round(result.compressionRatio * 100)}% smaller)`
+      )
+    }
+  }
+}
+```
+
+## Deploy with SAM
+
+A full working example with SAM template, `samconfig.toml`, and test events is available at [`examples/lambda-demo`](https://github.com/devcastech/beautiful-image/tree/main/examples/lambda-demo).
+
+<Steps>
+
+1. **Install SAM CLI**
+
+   ```sh
+   brew install aws-sam-cli
+   ```
+
+2. **Build**
+
+   ```sh
+   sam build
+   ```
+
+3. **Test locally**
+
+   ```sh
+   sam local invoke ImageProcessorFunction \
+     -e events/s3-put.json \
+     --env-vars '{"ImageProcessorFunction":{"SOURCE_BUCKET":"raw","DEST_BUCKET":"processed"}}'
+   ```
+
+4. **Deploy**
+
+   ```sh
+   sam deploy --guided
+   ```
+
+</Steps>
+
+## Why WASM on Lambda?
+
+Native image libraries like `sharp` require platform-specific binaries that must match the Lambda runtime architecture (`arm64` or `x86_64`). This often means extra build steps, Docker cross-compilation, or Lambda layers.
+
+`beautiful-image` compiles to a single `.wasm` file that runs anywhere Node.js runs,  no extra steps, no architecture mismatch.

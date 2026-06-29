@@ -1,0 +1,45 @@
+---
+import Header from '../components/header.astro';
+import Footer from '../components/footer.astro';
+import Playground from '../features/playground/Playground.tsx';
+import '../styles/landing.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playground | beautiful-image</title>
+    <meta
+      name="description"
+      content="Try beautiful-image live: drop an image, apply filters, and watch the file shrink in real time. Everything runs in your browser, nothing is uploaded."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#080808] text-white antialiased"
+    style="display: flex; flex-direction: column; min-height: 100dvh;"
+  >
+    <Header />
+
+    <!-- mt-14 offsets the fixed Header (h-14) so content isn't hidden behind it -->
+    <div class="pg-root" style="flex: 1; min-height: 0; margin-top: 3.5rem;">
+      <Playground client:only="react" />
+    </div>
+
+    <Footer />
+  </body>
+</html>

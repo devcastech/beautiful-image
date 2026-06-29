@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Beautiful Image processor Lambda triggered by S3 uploads using beautiful-image
+
+Parameters:
+  SourceBucketName:
+    Type: String
+    Default: "my-raw-images"
+    Description: S3 bucket where raw images are uploaded (trigger source)
+  DestBucketName:
+    Type: String
+    Default: "my-processed-images"
+    Description: S3 bucket where processed variants are saved
+  Environment:
+    Type: String
+    Default: sandbox
+    Description: Deployment environment name
+
+Resources:
+  ImageProcessorFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+          - handler.ts
+        External:
+          - '@aws-sdk/*'
+    Properties:
+      FunctionName: !Sub "ImageProcessorFunction-${Environment}"
+      CodeUri: ./
+      Handler: handler.handler
+      Runtime: nodejs22.x
+      Timeout: 60
+      # 1769 MB = 1 full vCPU on Lambda. WASM is single-threaded so this is the
+      # ceiling for CPU gain more memory above this won't speed up processing.
+      # https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html
+      MemorySize: 1769
+      Environment:
+        Variables:
+          SOURCE_BUCKET: !Ref SourceBucketName
+          DEST_BUCKET: !Ref DestBucketName
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Sub "arn:aws:s3:::${SourceBucketName}/*"
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource: !Sub "arn:aws:s3:::${DestBucketName}/*"
+
+  ImageProcessorFunctionS3Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt ImageProcessorFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub "arn:aws:s3:::${SourceBucketName}"
+      SourceAccount: !Ref AWS::AccountId
