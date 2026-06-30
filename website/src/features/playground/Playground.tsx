@@ -41,7 +41,7 @@ export default function Playground() {
           if (prev) URL.revokeObjectURL(prev.url);
           return next;
         });
-        setFilters(defaultFilters);
+        setFilters({ ...defaultFilters, resize: next.width > 1500 ? 1500 : null });
       })
       .catch(() => {});
   }, []);
@@ -50,7 +50,10 @@ export default function Playground() {
     setFilters((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const reset = useCallback(() => setFilters(defaultFilters), []);
+  const reset = useCallback(
+    () => setFilters({ ...defaultFilters, resize: source && source.width > 1500 ? 1500 : null }),
+    [source]
+  );
 
   // Revoke the source URL on unmount.
   useEffect(() => {

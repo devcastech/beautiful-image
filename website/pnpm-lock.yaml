@@ -27,8 +27,8 @@ importers:
         specifier: ^7.0.2
         version: 7.0.3(@astrojs/markdown-remark@7.2.0)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@24.13.2)(jiti@2.7.0)
       beautiful-image:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -1092,8 +1092,8 @@ packages:
   bcp-47@2.1.0:
     resolution: {integrity: sha512-9IIS3UPrvIa1Ej+lVDdDwO7zLehjqsaByECw0bu2RRGP73jALm6FYbzI5gWbgHLvNdkvfXB5YrSbocZdOS0c0w==}
 
-  beautiful-image@1.0.0:
-    resolution: {integrity: sha512-xaV/CgaWERjD2zFChc1EC3jKBXsFyE/oZF0j0aDpJ4TvAs0P5jU7czP4yUFKmcTEg3RQT8YbR3iGyZZK0iEgEA==}
+  beautiful-image@1.1.0:
+    resolution: {integrity: sha512-vM6QZDjW3DNR5XZ6aeKdl+MgcmQ7f1pGSyNCRAgtfPTGYAt+cYxVSaYmC/L+1FZP/iAhM7B55UxcAtU8p0m4RA==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -3401,7 +3401,7 @@ snapshots:
       is-alphanumerical: 2.0.1
       is-decimal: 2.0.1
 
-  beautiful-image@1.0.0: {}
+  beautiful-image@1.1.0: {}
 
   boolbase@1.0.0: {}
 
